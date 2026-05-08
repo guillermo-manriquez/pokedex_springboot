@@ -1,3 +1,29 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: auth-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/pokedex_auth?createDatabaseIfNotExist=true
+    username: root
+    password: your_password_here
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate        # Flyway creates the tables, JPA just validates they match
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true   # Safe for first run on an existing database
+
+jwt:
+  secret: your-very-long-secret-key-change-this
+  expiration-ms: 86400000       # 24 hours in milliseconds
