@@ -12,6 +12,8 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/* se debe agregar una serie de dependencias al pom */
+
 @Component
 public class JwtUtil {
 
