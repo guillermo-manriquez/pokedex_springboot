@@ -10,4 +10,7 @@ public class PokemonServiceApplication {
 		SpringApplication.run(PokemonServiceApplication.class, args);
 	}
 
+	//http://localhost:8081/pokedex
+ 	//http://localhost:8081/pokemon/pikachu
+ 	//http://localhost:8081/pokemon/id/25
 }
