@@ -10,10 +10,10 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
         <module name="api-gateway" />
-        <module name="coleccion-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="coleccion-service" target="21" />
       <module name="pokemon-service" target="21" />
     </bytecodeTargetLevel>
   </component>
