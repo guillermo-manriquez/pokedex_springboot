@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final com.pokedex.user_service.security.JwtUtil jwtUtil;
