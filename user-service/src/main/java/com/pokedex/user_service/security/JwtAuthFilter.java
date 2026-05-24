@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final com.pokedex.auth_service.security.JwtUtil jwtUtil;
+    private final com.pokedex.user_service.security.JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
