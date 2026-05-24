@@ -8,22 +8,25 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for pokemon-system" enabled="true">
+      <profile name="Annotation profile for pokemon-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="auth-service (2)" />
+        <module name="pokemon-service" />
+        <module name="carrito_service" />
+        <module name="producto_service" />
+        <module name="orden_service" />
         <module name="auth-service (1)" />
+        <module name="api-gateway" />
+        <module name="auth-service (2)" />
+        <module name="coleccion-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="api-gateway" target="21" />
       <module name="auth-service" target="21" />
-      <module name="coleccion-service" target="21" />
-      <module name="pokemon-service" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -32,8 +35,11 @@
       <module name="auth-service" options="-parameters" />
       <module name="auth-service (1)" options="-parameters" />
       <module name="auth-service (2)" options="-parameters" />
+      <module name="carrito_service" options="-parameters" />
       <module name="coleccion-service" options="-parameters" />
+      <module name="orden_service" options="-parameters" />
       <module name="pokemon-service" options="-parameters" />
+      <module name="producto_service" options="-parameters" />
     </option>
   </component>
 </project>
