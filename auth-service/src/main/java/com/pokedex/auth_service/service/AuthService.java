@@ -7,17 +7,27 @@ import com.pokedex.auth_service.entity.User;
 import com.pokedex.auth_service.repository.UserRepository;
 import com.pokedex.auth_service.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 
 public class AuthService {
 
+
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final RestTemplate restTemplate;
+
+    @Value("${services.user-service}")
+    private String userServiceUrl;
 
 
     public AuthResponse register(RegisterRequest request){
@@ -35,6 +45,16 @@ public class AuthService {
 
         userRepository.save(user);
 
+        Map<String, Object> profileRequest = Map.of(
+                "userId", user.getId(),
+                "username", user.getUsername()
+        );
+        restTemplate.postForObject(
+                userServiceUrl + "/api/users/profile",
+                profileRequest,
+                Object.class
+        );
+
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return new AuthResponse(token, user.getUsername(), user.getRole().name());
     }
@@ -50,5 +70,7 @@ public class AuthService {
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return new  AuthResponse(token, user.getUsername(), user.getRole().name());
     }
+
+
 
 }
