@@ -1,5 +1,6 @@
 package com.pokedex.user_service.controller;
 
+import com.pokedex.user_service.dto.CreateProfileRequest;
 import com.pokedex.user_service.dto.UpdateProfileRequest;
 import com.pokedex.user_service.dto.UserProfileResponse;
 import com.pokedex.user_service.service.UserProfileService;
@@ -25,5 +26,10 @@ public class UserProfileController {
             Authentication authentication,
             @RequestBody UpdateProfileRequest request) {
         return ResponseEntity.ok(userProfileService.updateMyProfile(authentication.getName(), request));
+    }
+
+    @PostMapping("/profile")
+    public ResponseEntity<UserProfileResponse> createProfile(@RequestBody CreateProfileRequest request) {
+        return ResponseEntity.ok(userProfileService.createProfile(request));
     }
 }

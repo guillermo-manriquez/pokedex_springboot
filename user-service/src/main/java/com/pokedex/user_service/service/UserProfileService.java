@@ -1,5 +1,6 @@
 package com.pokedex.user_service.service;
 
+import com.pokedex.user_service.dto.CreateProfileRequest;
 import com.pokedex.user_service.dto.UpdateProfileRequest;
 import com.pokedex.user_service.dto.UserProfileResponse;
 import com.pokedex.user_service.entity.UserProfile;
@@ -29,11 +30,25 @@ public class UserProfileService {
         return mapToResponse(profile);
     }
 
+
     private UserProfileResponse mapToResponse(UserProfile profile) {
         return new UserProfileResponse(
                 profile.getUserId(),
                 profile.getUsername(),
                 profile.getDisplayName()
         );
+    }
+
+    public UserProfileResponse createProfile(CreateProfileRequest request) {
+        if (userProfileRepository.existsByUserId(request.getUserId())) {
+            throw new RuntimeException("Profile already exists");
+        }
+
+        UserProfile profile = new UserProfile();
+        profile.setUserId(request.getUserId());
+        profile.setUsername(request.getUsername());
+
+        userProfileRepository.save(profile);
+        return mapToResponse(profile);
     }
 }
