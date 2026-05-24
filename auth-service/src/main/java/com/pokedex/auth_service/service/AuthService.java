@@ -50,7 +50,7 @@ public class AuthService {
                 "username", user.getUsername()
         );
         restTemplate.postForObject(
-                userServiceUrl + "/api/users/profile",
+                userServiceUrl + "/api/v1/users/profile",
                 profileRequest,
                 Object.class
         );
