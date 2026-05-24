@@ -25,7 +25,7 @@ spring:
     baseline-on-migrate: true   # Safe for first run on an existing database
 
 jwt:
-  secret: super-contra-secreta
+  secret: super-contra-secreta-clave-muy-segura-123456
   expiration-ms: 86400000       # 24 hours in milliseconds
 
 services:

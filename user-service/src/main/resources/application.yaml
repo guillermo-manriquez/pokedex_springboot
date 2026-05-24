@@ -22,4 +22,4 @@ spring:
     baseline-on-migrate: true
 
 jwt:
-  secret: super-contra-secreta
+  secret: super-contra-secreta-clave-muy-segura-123456
