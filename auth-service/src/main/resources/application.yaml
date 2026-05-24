@@ -28,7 +28,6 @@ jwt:
   secret: your-very-long-secret-key-change-this
   expiration-ms: 86400000       # 24 hours in milliseconds
 
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.springframework: DEBUG
+services:
+  user-service: http://localhost:8082
+
