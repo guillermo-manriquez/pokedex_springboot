@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for pokemon-service" enabled="true">
+      <profile name="Annotation profile for pokemon-system" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -17,6 +17,7 @@
         </processorPath>
         <module name="pokemon-service" />
         <module name="carrito_service" />
+        <module name="pago-service" />
         <module name="producto_service" />
         <module name="orden_service" />
         <module name="auth-service (1)" />
@@ -38,6 +39,7 @@
       <module name="carrito_service" options="-parameters" />
       <module name="coleccion-service" options="-parameters" />
       <module name="orden_service" options="-parameters" />
+      <module name="pago-service" options="-parameters" />
       <module name="pokemon-service" options="-parameters" />
       <module name="producto_service" options="-parameters" />
     </option>

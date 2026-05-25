@@ -1,0 +1,22 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/pokedex_payments?createDatabaseIfNotExist=true
+    username: root
+    password: javajava
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+jwt:
+  secret: super-contra-secreta-clave-muy-segura-123456
