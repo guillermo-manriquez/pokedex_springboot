@@ -29,6 +29,8 @@ public class AuthService {
     @Value("${services.user-service}")
     private String userServiceUrl;
 
+    @Value("${services.notification-service}")
+    private String notificationServiceUrl;
 
     public AuthResponse register(RegisterRequest request){
         if (userRepository.existsByUsername(request.getUsername())){
@@ -52,6 +54,16 @@ public class AuthService {
         restTemplate.postForObject(
                 userServiceUrl + "/api/v1/users/profile",
                 profileRequest,
+                Object.class
+        );
+        Map<String, Object> notification = Map.of(
+                "userId", user.getId(),
+                "message", "Bienvenido a PokedexShop " + user.getUsername() + "!",
+                "type", "WELCOME"
+        );
+        restTemplate.postForObject(
+                notificationServiceUrl + "/api/v1/notificacion/internal/create",
+                notification,
                 Object.class
         );
 

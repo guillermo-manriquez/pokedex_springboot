@@ -5,13 +5,21 @@ import com.pokedex.pago_service.Dto.PagoResponse;
 import com.pokedex.pago_service.Model.Pago;
 import com.pokedex.pago_service.Repository.PagoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class PagoService {
 
+    private final RestTemplate restTemplate;
     private final PagoRepository paymentRepository;
+
+    @Value("${services.notification-service}")
+    private String notificationServiceUrl;
 
     public PagoResponse processPayment(PagoRequest request) {
         Pago payment = new Pago();
@@ -29,6 +37,14 @@ public class PagoService {
         if (success) {
             payment.setStatus(Pago.PaymentStatus.COMPLETED);
             paymentRepository.save(payment);
+
+            Map<String, Object> notification = Map.of(
+                    "userId", payment.getUserId(),
+                    "message", "Tu pago fue procesado exitosamente",
+                    "type", "PAYMENT_SUCCESS"
+            );
+
+
             return new PagoResponse(
                     payment.getId(),
                     payment.getOrderId(),

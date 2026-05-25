@@ -1,11 +1,11 @@
 server:
-  port: 8083
+  port: 8084
 
 spring:
   application:
-    name: payment-service
+    name: notification-service
   datasource:
-    url: jdbc:mysql://localhost:3306/pokedex_payments?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/pokedex_notifications?createDatabaseIfNotExist=true
     username: root
     password: javajava
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,6 +20,3 @@ spring:
 
 jwt:
   secret: super-contra-secreta-clave-muy-segura-123456
-
-services:
-  notification-service: http://localhost:8084
