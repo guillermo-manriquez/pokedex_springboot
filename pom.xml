@@ -13,6 +13,7 @@
 		<module>user-service</module>
 		<module>pago-service</module>
 		<module>notificacion-service</module>
+		<module>social-service</module>
 	</modules>
 
 </project>
