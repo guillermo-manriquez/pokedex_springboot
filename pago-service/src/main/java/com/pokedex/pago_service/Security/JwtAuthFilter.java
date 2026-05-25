@@ -1,4 +1,4 @@
-package com.pokedex.pago_service.security;
+package com.pokedex.pago_service.Security;
 
 import java.io.IOException;
 import jakarta.servlet.FilterChain;
