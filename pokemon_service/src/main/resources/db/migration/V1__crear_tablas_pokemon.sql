@@ -1,10 +1,10 @@
-CREATE TABLE Pokedex (
+CREATE TABLE pokedex (
         id_pokedex INT PRIMARY KEY,
         nombre_pokedex VARCHAR(50) NOT NULL,
         generacion VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Pokemon (
+CREATE TABLE pokemon (
         id_pokemon INT PRIMARY KEY,
         id_pokedex INT NOT NULL,
 

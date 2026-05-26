@@ -1,4 +1,4 @@
-INSERT INTO Pokedex (id_pokedex, nombre_pokedex, generacion) VALUES
+INSERT INTO pokedex (id_pokedex, nombre_pokedex, generacion) VALUES
         (1, 'kanto', 'Gen I'),
         (2, 'johto', 'Gen II'),
         (3, 'hoenn', 'Gen III'),
