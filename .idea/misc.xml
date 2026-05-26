@@ -11,6 +11,8 @@
         <option value="$PROJECT_DIR$/orden_service/pom.xml" />
         <option value="$PROJECT_DIR$/producto_service/pom.xml" />
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/coleccion_service/pom.xml" />
+        <option value="$PROJECT_DIR$/pokemon_service/pom.xml" />
       </list>
     </option>
   </component>
