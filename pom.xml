@@ -12,8 +12,14 @@
 		<module>auth-service</module>
 		<module>user-service</module>
 		<module>pago-service</module>
+		<module>producto_service</module>
 		<module>notificacion-service</module>
+		<module>orden_service</module>
+		<module>eureka-server</module>
+		<module>coleccion_service</module>
+		<module>pokemon_service</module>
 		<module>social-service</module>
+		<module>carrito_service</module>
 	</modules>
 
 </project>

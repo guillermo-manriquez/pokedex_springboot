@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="eureka-server" />
       </profile>
       <profile name="Annotation profile for pokemon-system" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -14,22 +15,16 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="auth-service (2)" />
-      </profile>
-      <profile name="Annotation profile for pokemon_service" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
         <module name="carrito_service" />
+        <module name="pago-service" />
         <module name="producto_service" />
+        <module name="notificacion-service" />
         <module name="orden_service" />
         <module name="auth-service (1)" />
         <module name="api-gateway" />
+        <module name="social-service" />
+        <module name="auth-service (2)" />
         <module name="coleccion_service" />
         <module name="pokemon_service" />
       </profile>
@@ -49,10 +44,14 @@
       <module name="carrito_service" options="-parameters" />
       <module name="coleccion-service" options="-parameters" />
       <module name="coleccion_service" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+      <module name="notificacion-service" options="-parameters" />
       <module name="orden_service" options="-parameters" />
+      <module name="pago-service" options="-parameters" />
       <module name="pokemon-service" options="-parameters" />
       <module name="pokemon_service" options="-parameters" />
       <module name="producto_service" options="-parameters" />
+      <module name="social-service" options="-parameters" />
     </option>
   </component>
 </project>
