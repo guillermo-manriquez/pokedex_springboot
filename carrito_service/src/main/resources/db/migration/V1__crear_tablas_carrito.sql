@@ -1,10 +1,10 @@
-CREATE TABLE Carrito (
+CREATE TABLE carrito (
     id_carrito INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL, -- sin FK
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Carrito_Item (
+CREATE TABLE carrito_item (
     id_carrito_item INT AUTO_INCREMENT PRIMARY KEY,
     id_carrito INT NOT NULL,
     id_producto INT NOT NULL, -- sin FK
