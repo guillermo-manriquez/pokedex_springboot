@@ -35,7 +35,4 @@ jwt:
   secret: super-contra-secreta-clave-muy-segura-123456
   expiration-ms: 86400000       # 24 hours in milliseconds
 
-services:
-  user-service: http://localhost:8082
-  notification-service: http://localhost:8084
 

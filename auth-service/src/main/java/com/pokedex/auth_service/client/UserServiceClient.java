@@ -1,0 +1,13 @@
+package com.pokedex.auth_service.client;
+
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@FeignClient(name="user-service")
+public interface UserServiceClient {
+
+    @PostMapping("/api/v1/users/profile")
+    void createProfile(@RequestBody CreateProfileRequest request);
+}

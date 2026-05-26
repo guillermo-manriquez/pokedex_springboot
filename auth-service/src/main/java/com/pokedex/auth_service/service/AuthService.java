@@ -1,5 +1,9 @@
 package com.pokedex.auth_service.service;
 
+import com.pokedex.auth_service.client.CreateProfileRequest;
+import com.pokedex.auth_service.client.NotificacionRequest;
+import com.pokedex.auth_service.client.NotificacionServiceClient;
+import com.pokedex.auth_service.client.UserServiceClient;
 import com.pokedex.auth_service.dto.AuthResponse;
 import com.pokedex.auth_service.dto.LoginRequest;
 import com.pokedex.auth_service.dto.RegisterRequest;
@@ -7,30 +11,22 @@ import com.pokedex.auth_service.entity.User;
 import com.pokedex.auth_service.repository.UserRepository;
 import com.pokedex.auth_service.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 
 public class AuthService {
 
-
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    private final RestTemplate restTemplate;
+    private final UserServiceClient userServiceClient;
+    private final NotificacionServiceClient notificacionServiceClient;
 
-    @Value("${services.user-service}")
-    private String userServiceUrl;
-
-    @Value("${services.notification-service}")
-    private String notificationServiceUrl;
 
     public AuthResponse register(RegisterRequest request){
         if (userRepository.existsByUsername(request.getUsername())){
@@ -47,24 +43,16 @@ public class AuthService {
 
         userRepository.save(user);
 
-        Map<String, Object> profileRequest = Map.of(
-                "userId", user.getId(),
-                "username", user.getUsername()
+        userServiceClient.createProfile(
+                new CreateProfileRequest(user.getId(), user.getUsername())
         );
-        restTemplate.postForObject(
-                userServiceUrl + "/api/v1/users/profile",
-                profileRequest,
-                Object.class
-        );
-        Map<String, Object> notification = Map.of(
-                "userId", user.getId(),
-                "message", "Bienvenido a PokedexShop " + user.getUsername() + "!",
-                "type", "WELCOME"
-        );
-        restTemplate.postForObject(
-                notificationServiceUrl + "/api/v1/notificacion/internal/create",
-                notification,
-                Object.class
+
+        notificacionServiceClient.createNotificacion(
+                new NotificacionRequest(
+                        user.getId(),
+                        "Bienvenido a PokedexShop " + user.getUsername() + "!",
+                        "WELCOME"
+                )
         );
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
