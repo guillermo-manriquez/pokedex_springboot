@@ -1,5 +1,6 @@
 package com.pokemon.orden_service.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class OrdenItem {
 
     @ManyToOne
     @JoinColumn(name = "id_orden")
+    @JsonBackReference
     private Orden orden;
 
     private Integer idProducto;
