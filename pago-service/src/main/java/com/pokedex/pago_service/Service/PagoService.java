@@ -26,7 +26,7 @@ public class PagoService {
         payment.setOrderId(request.getOrderId());
         payment.setUserId(request.getUserId());
         payment.setAmount(request.getAmount());
-        payment.setCurrency(request.getCurrency() != null ? request.getCurrency() : "USD");
+        payment.setCurrency(request.getCurrency() != null ? request.getCurrency() : "CLP");
         payment.setPaymentMethod(request.getPaymentMethod());
         payment.setStatus(Pago.PaymentStatus.PENDING);
 
