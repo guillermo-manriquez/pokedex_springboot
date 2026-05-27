@@ -51,4 +51,11 @@ public class UserProfileService {
         userProfileRepository.save(profile);
         return mapToResponse(profile);
     }
+
+    //agregado para usar openfeing con collection-service
+    public UserProfile obtenerPorId(Long id) {
+
+        return userProfileRepository.findById(id).orElseThrow(() ->
+                        new RuntimeException("Usuario no encontrado"));
+    }
 }

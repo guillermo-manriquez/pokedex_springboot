@@ -1,5 +1,6 @@
 package com.pokemon.coleccion_service.service;
 
+import com.pokemon.coleccion_service.client.UserClient;
 import com.pokemon.coleccion_service.entity.ListaPokemon;
 import com.pokemon.coleccion_service.repository.ListaPokemonRepository;
 import org.springframework.stereotype.Service;
@@ -10,18 +11,24 @@ import java.util.List;
 @Service
 public class ListaPokemonService {
 
+    private final UserClient userClient;
     private final ListaPokemonRepository listaPokemonRepository;
 
     public ListaPokemonService(
-            ListaPokemonRepository listaPokemonRepository
+            ListaPokemonRepository listaPokemonRepository,
+            UserClient userClient
     ) {
+
         this.listaPokemonRepository = listaPokemonRepository;
+        this.userClient = userClient;
     }
 
     // Crear lista
     public ListaPokemon crearLista(ListaPokemon listaPokemon) {
 
         listaPokemon.setFechaCreacion(LocalDateTime.now());
+
+        userClient.obtenerUsuario(listaPokemon.getIdUsuario().longValue());
 
         return listaPokemonRepository.save(listaPokemon);
     }

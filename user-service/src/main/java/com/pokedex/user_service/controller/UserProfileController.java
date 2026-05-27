@@ -3,6 +3,9 @@ package com.pokedex.user_service.controller;
 import com.pokedex.user_service.dto.CreateProfileRequest;
 import com.pokedex.user_service.dto.UpdateProfileRequest;
 import com.pokedex.user_service.dto.UserProfileResponse;
+
+import com.pokedex.user_service.entity.UserProfile;
+
 import com.pokedex.user_service.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +34,12 @@ public class UserProfileController {
     @PostMapping("/profile")
     public ResponseEntity<UserProfileResponse> createProfile(@RequestBody CreateProfileRequest request) {
         return ResponseEntity.ok(userProfileService.createProfile(request));
+    }
+
+    //agregado para usar openfeing con collection-service
+    @GetMapping("/{id}")
+    public ResponseEntity<UserProfile> obtenerUsuarioPorId(@PathVariable Long id) {
+        UserProfile usuario = userProfileService.obtenerPorId(id);
+        return ResponseEntity.ok(usuario);
     }
 }
