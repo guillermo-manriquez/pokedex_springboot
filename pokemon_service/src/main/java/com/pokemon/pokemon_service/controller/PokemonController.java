@@ -42,11 +42,6 @@ public class PokemonController {
     }
 
 
-    @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<Pokemon>> getPokemonByTipo(@PathVariable String tipo) {
-        return ResponseEntity.ok(pokemonService.getPokemonByTipo(tipo));
-    }
-
     @GetMapping("/{nombre}")
     public ResponseEntity<Pokemon> obtenerPokemon(@PathVariable String nombre) {
         Pokemon pokemon = pokemonService.obtenerPokemon(nombre);

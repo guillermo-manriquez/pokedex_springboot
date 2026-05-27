@@ -19,9 +19,6 @@ public class PokemonService {
     private final PokemonRepository pokemonRepository;
     private final PokedexRepository pokedexRepository;
 
-    public List<Pokemon> getPokemonByTipo(String tipo) {
-        return pokemonRepository.findByTipo1(tipo);
-    }
 
     public PokemonService(
             PokemonRepository pokemonRepository,
