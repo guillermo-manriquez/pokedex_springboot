@@ -31,7 +31,7 @@ public class PokemonService {
 
     public void cargarPokemonIniciales() {
 
-        for (int i = 1; i <= 151; i++) {
+        for (int i = 1; i <= 1025; i++) {
 
             try {
 
@@ -54,6 +54,8 @@ public class PokemonService {
             }
         }
     }
+
+
 
     //====================
     // Por id
