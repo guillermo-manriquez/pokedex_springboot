@@ -1,11 +1,12 @@
 package com.pokemon.coleccion_service.client;
 
+import com.pokemon.coleccion_service.config.FeignConfig;
 import com.pokemon.coleccion_service.dto.UserCollectionDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "user-service")
+@FeignClient(name = "user-service", configuration = FeignConfig.class)
 public interface UserClient {
 
     @GetMapping("/api/v1/users/{id}")
