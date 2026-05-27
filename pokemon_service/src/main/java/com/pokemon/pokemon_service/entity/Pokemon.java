@@ -16,7 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class Pokemon {
-
     @Id
     private Integer idPokemon;
 

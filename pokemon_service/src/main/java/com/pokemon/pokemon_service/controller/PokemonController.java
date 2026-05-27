@@ -4,10 +4,9 @@ import com.pokemon.pokemon_service.entity.Pokemon;
 import com.pokemon.pokemon_service.service.PokemonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pokemon")
@@ -32,6 +31,21 @@ public class PokemonController {
     //                .build();
     //    }
     //}
+    @PostMapping("/cargar")
+    public ResponseEntity<String> cargarPokemonIniciales() {
+
+        pokemonService.cargarPokemonIniciales();
+
+        return ResponseEntity.ok(
+                "Pokemon cargados correctamente"
+        );
+    }
+
+
+    @GetMapping("/tipo/{tipo}")
+    public ResponseEntity<List<Pokemon>> getPokemonByTipo(@PathVariable String tipo) {
+        return ResponseEntity.ok(pokemonService.getPokemonByTipo(tipo));
+    }
 
     @GetMapping("/{nombre}")
     public ResponseEntity<Pokemon> obtenerPokemon(@PathVariable String nombre) {

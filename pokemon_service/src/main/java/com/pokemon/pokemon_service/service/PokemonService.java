@@ -9,6 +9,8 @@ import com.pokemon.pokemon_service.repository.PokemonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service
 public class PokemonService {
     //@Autowired
@@ -16,6 +18,10 @@ public class PokemonService {
 
     private final PokemonRepository pokemonRepository;
     private final PokedexRepository pokedexRepository;
+
+    public List<Pokemon> getPokemonByTipo(String tipo) {
+        return pokemonRepository.findByTipo1(tipo);
+    }
 
     public PokemonService(
             PokemonRepository pokemonRepository,
@@ -26,7 +32,31 @@ public class PokemonService {
         this.pokedexRepository = pokedexRepository;
     }
 
+    public void cargarPokemonIniciales() {
 
+        for (int i = 1; i <= 151; i++) {
+
+            try {
+
+                if (!pokemonRepository.existsById(i)) {
+
+                    obtenerPokemonPorId(i);
+
+                    System.out.println(
+                            "Pokemon cargado: " + i
+                    );
+                }
+
+            } catch (Exception e) {
+
+                System.out.println(
+                        "Error con pokemon " + i
+                );
+
+                e.printStackTrace();
+            }
+        }
+    }
 
     //====================
     // Por id
