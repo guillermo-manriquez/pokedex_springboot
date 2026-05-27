@@ -25,6 +25,7 @@ public class NotificacionController {
 
     @GetMapping("/me/{userId}")
     public ResponseEntity<List<NotificacionResponse>> getMyNotifications(@PathVariable Integer userId) {
+        System.out.println("CONTROLLER HIT - userId: " + userId);
         return ResponseEntity.ok(notificacionService.getMyNotifications(userId));
     }
 
@@ -32,5 +33,11 @@ public class NotificacionController {
     public ResponseEntity<Void> markAsRead(@PathVariable Long id) {
         notificacionService.markAsRead(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        System.out.println("TEST HIT");
+        return ResponseEntity.ok("notificacion-service is alive");
     }
 }

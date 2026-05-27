@@ -21,9 +21,6 @@ spring:
 jwt:
   secret: super-contra-secreta-clave-muy-segura-123456
 
-services:
-  notification-service: http://localhost:8084
-
 eureka:
   client:
     service-url:

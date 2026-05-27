@@ -15,6 +15,7 @@ public class NotificacionService {
 
     private final NotificacionRepository notificacionRepository;
 
+
     public void createNotification(NotificacionRequest request) {
         Notificacion notificacion = new Notificacion();
         notificacion.setUserId(request.getUserId());
