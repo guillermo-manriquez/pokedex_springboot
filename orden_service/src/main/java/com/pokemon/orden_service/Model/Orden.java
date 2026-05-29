@@ -2,6 +2,7 @@ package com.pokemon.orden_service.Model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "Orden")
-
+@Table(name = "orden")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,14 +22,22 @@ public class Orden {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_orden")
     private Integer idOrden;
 
-    private Integer idUsuario;
+    @Column(name = "id_carrito", nullable = false)
+    private Integer idCarrito;
 
+    @Column(name = "id_usuario", nullable = false)
+    private Long idUsuario;
+
+    @Column(name = "fecha_orden")
     private LocalDateTime fechaOrden;
 
+    @Column(name = "estado_orden")
     private String estadoOrden;
 
+    @Column(name = "total_monto")
     private BigDecimal totalMonto;
 
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)

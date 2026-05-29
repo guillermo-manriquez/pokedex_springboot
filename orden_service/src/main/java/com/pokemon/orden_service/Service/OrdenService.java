@@ -1,11 +1,14 @@
 package com.pokemon.orden_service.Service;
 
-import com.pokemon.orden_service.Client.PagoRequest;
-import com.pokemon.orden_service.Client.PagoResponse;
-import com.pokemon.orden_service.Client.PagoServiceClient;
 import com.pokemon.orden_service.Model.Orden;
 import com.pokemon.orden_service.Model.OrdenItem;
 import com.pokemon.orden_service.Repository.OrdenRepository;
+
+import com.pokemon.orden_service.client.UserClient;
+import com.pokemon.orden_service.client.CarritoClient;
+
+import com.pokemon.orden_service.dto.UserDTO;
+import com.pokemon.orden_service.dto.CarritoDTO;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,95 +18,103 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @RequiredArgsConstructor
 @Service
 public class OrdenService {
 
-    private final PagoServiceClient pagoServiceClient;
     private final OrdenRepository ordenRepository;
-    private static final Logger log = LoggerFactory.getLogger(OrdenService.class);
+    private final UserClient userClient;
+    private final CarritoClient carritoClient;
+
+    private static final Logger log =
+            LoggerFactory.getLogger(OrdenService.class);
 
     // Crear orden
     public Orden crearOrden(Orden orden) {
 
-        log.info("Creando orden para usuario: {}", orden.getIdUsuario());
-
-        orden.setFechaOrden(LocalDateTime.now());
-        orden.setEstadoOrden("Pendiente");
-
-        if (orden.getItems() != null) {
-            for (OrdenItem item : orden.getItems()) {
-                item.setOrden(orden);
-            }
-        }
-
-        Orden savedOrden = ordenRepository.save(orden);
-
-        log.info("Orden creada con id: {}", savedOrden.getIdOrden());
-
         try {
-            PagoRequest pagoRequest = new PagoRequest(
-                    savedOrden.getIdOrden(),
-                    savedOrden.getIdUsuario(),
-                    savedOrden.getTotalMonto(),
-                    "CLP",
-                    "CREDIT_CARD",
-                    null
-            );
+            log.info("Creando orden para usuario: {}", orden.getIdUsuario());
 
-            log.info("Enviando request a pago-service: {}", pagoRequest);
-            PagoResponse pagoResponse = pagoServiceClient.procesarPago(pagoRequest);
-            log.info("Respuesta de pago-service: {}", pagoResponse);
+            UserDTO usuario = userClient.obtenerUsuario(orden.getIdUsuario().longValue());
+            log.info("Usuario encontrado: {}", usuario.getUsername());
 
-            if ("COMPLETED".equalsIgnoreCase(pagoResponse.getStatus())) {
-                savedOrden.setEstadoOrden("Pagado");
-                log.info("Pago completado para orden {}",savedOrden.getIdOrden());
-            } else {
-                savedOrden.setEstadoOrden("Pago Fallido");
-                log.warn("Pago rechazado para orden {}", savedOrden.getIdOrden());
+            CarritoDTO carrito = carritoClient.obtenerCarrito(orden.getIdCarrito().longValue());
+            log.info("Carrito validado: {}", carrito.getIdCarrito());
+
+            orden.setFechaOrden(LocalDateTime.now());
+            orden.setEstadoOrden("PENDIENTE");
+
+            if (orden.getItems() != null) {
+                for (OrdenItem item : orden.getItems()) {
+                    item.setOrden(orden);
+                }
             }
+            Orden savedOrden = ordenRepository.save(orden);
+            log.info("Orden creada con id: {}", savedOrden.getIdOrden());
+            return savedOrden;
+
         } catch (Exception e) {
-            log.error("ERROR COMPLETO FEIGN:", e);
-            savedOrden.setEstadoOrden("Error Pago");
+            log.error("Error al crear orden", e);
+            return null;
         }
-        return ordenRepository.save(savedOrden);
     }
 
     // Obtener por usuario
     public List<Orden> listarPorUsuario(Integer idUsuario) {
-        return ordenRepository.findByIdUsuario(idUsuario);
+
+        try {
+            userClient.obtenerUsuario(idUsuario.longValue());
+            return ordenRepository.findByIdUsuario(idUsuario);
+
+        } catch (Exception e) {
+            log.error("Error al listar órdenes por usuario", e);
+            return List.of();
+        }
     }
 
     // Obtener por id
     public Orden obtenerPorId(Integer id) {
-        return ordenRepository.findById(id).orElse(null);
+
+        try {
+            return ordenRepository.findById(id).orElse(null);
+
+        } catch (Exception e) {
+            log.error("Error al obtener orden", e);
+            return null;
+        }
     }
 
     // Actualizar estado
     public Orden actualizarEstado(Integer id, String estado) {
 
-        Orden orden = ordenRepository.findById(id).orElse(null);
+        try {
+            Orden orden = ordenRepository.findById(id).orElse(null);
 
-        if (orden == null) {
+            if (orden == null) {
+                return null;
+            }
+            orden.setEstadoOrden(estado);
+            return ordenRepository.save(orden);
+
+        } catch (Exception e) {
+            log.error("Error al actualizar estado", e);
             return null;
         }
-
-        orden.setEstadoOrden(estado);
-
-        return ordenRepository.save(orden);
     }
 
     // Eliminar orden
     public boolean eliminarOrden(Integer id) {
 
-        Orden orden = ordenRepository.findById(id).orElse(null);
-
-        if (orden == null) {
+        try {
+            Orden orden = ordenRepository.findById(id).orElse(null);
+            if (orden == null) {
+                return false;
+            }
+            ordenRepository.delete(orden);
+            return true;
+        } catch (Exception e) {
+            log.error("Error al eliminar orden", e);
             return false;
         }
-
-        ordenRepository.delete(orden);
-        return true;
     }
 }
