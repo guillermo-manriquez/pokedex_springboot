@@ -4,10 +4,12 @@ import com.pokemon.producto_service.Model.ClasificacionProducto;
 
 import com.pokemon.producto_service.Repository.ClasificacionProductoRepository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ClasificacionProductoService {
 
@@ -21,11 +23,15 @@ public class ClasificacionProductoService {
     }
 
     // Crear clasificacion
-    public ClasificacionProducto crearClasificacion(
-            ClasificacionProducto clasificacion
-    ) {
-
-        return clasificacionRepository.save(clasificacion);
+    public ClasificacionProducto crearClasificacion(ClasificacionProducto clasificacion) {
+        try {
+            ClasificacionProducto clasenueva = clasificacionRepository.save(clasificacion);
+            log.info("Clasificación creada: " + clasenueva.getNombreCategoria());
+            return clasenueva;
+        } catch (Exception e) {
+            log.error("Error al crear clasificación", e);
+            return null;
+        }
     }
 
     // Listar todas
@@ -37,37 +43,48 @@ public class ClasificacionProductoService {
     // Buscar por id
     public ClasificacionProducto obtenerPorId(Integer id) {
 
-        return clasificacionRepository.findById(id).orElse(null);
+        try {
+            return clasificacionRepository.findById(id).orElse(null);
+        } catch (Exception e) {
+            log.error("Error al obtener clasificación por id", e);
+            return null;
+        }
     }
 
     // Actualizar
-    public ClasificacionProducto actualizarClasificacion(
-            Integer id,
-            ClasificacionProducto nuevaClasificacion
-    ) {
+    public ClasificacionProducto actualizarClasificacion(Integer id, ClasificacionProducto nuevaClasificacion) {
+        try {
 
-        ClasificacionProducto clasificacion = clasificacionRepository.findById(id).orElse(null);
+            ClasificacionProducto clasificacion = clasificacionRepository.findById(id).orElse(null);
+            if (clasificacion == null) {
+                return null;
+            }
+            clasificacion.setNombreCategoria(nuevaClasificacion.getNombreCategoria());
+            ClasificacionProducto updated = clasificacionRepository.save(clasificacion);
+            log.info("Clasificación actualizada: " + updated.getNombreCategoria());
+            return updated;
 
-        if (clasificacion == null) {
+        } catch (Exception e) {
+            log.error("Error al actualizar clasificación", e);
             return null;
         }
-
-        clasificacion.setNombreCategoria(nuevaClasificacion.getNombreCategoria());
-
-        return clasificacionRepository.save(clasificacion);
     }
 
     // Eliminar
     public boolean eliminarClasificacion(Integer id) {
 
-        ClasificacionProducto clasificacion = clasificacionRepository.findById(id).orElse(null);
+        try {
+            ClasificacionProducto clasificacion = clasificacionRepository.findById(id).orElse(null);
+            if (clasificacion == null) {
+                return false;
+            }
+            clasificacionRepository.delete(clasificacion);
+            log.info("Clasificación eliminada con id: " + id);
+            return true;
 
-        if (clasificacion == null) {
+        } catch (Exception e) {
+            log.error("Error al eliminar clasificación", e);
             return false;
         }
-
-        clasificacionRepository.delete(clasificacion);
-
-        return true;
     }
 }

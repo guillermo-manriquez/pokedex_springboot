@@ -27,15 +27,13 @@ public class ClasificacionProductoController {
 
     // Crear clasificacion
     @PostMapping
-    public ResponseEntity<ClasificacionProducto> crearClasificacion(
-            @Valid @RequestBody
-            ClasificacionProducto clasificacion
-    ) {
+    public ResponseEntity<ClasificacionProducto> crearClasificacion(@Valid @RequestBody ClasificacionProducto clasificacion) {
         ClasificacionProducto nueva = clasificacionService.crearClasificacion(clasificacion);
-
-        return new ResponseEntity<>(nueva, HttpStatus.CREATED);
+        if (nueva != null) {
+            return new ResponseEntity<>(nueva, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
     // Listar todas
     @GetMapping
     public ResponseEntity<List<ClasificacionProducto>> listarClasificaciones() {

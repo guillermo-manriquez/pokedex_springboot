@@ -29,14 +29,18 @@ public class ProductoService {
 
     // Crear producto
     public Producto crearProducto(Producto producto) {
-
-        PkmProductoDTO pokemon = pkmClient.obtenerPokemon(producto.getIdPokemon());
-
-        if (pokemon == null) {
+        try {
+            PkmProductoDTO pokemon = pkmClient.obtenerPokemon(producto.getIdPokemon());
+            if (pokemon == null) {
+                return null;
+            }
+            log.info("Pokemon encontrado: " + pokemon.getNombre()
+            );
+            return productoRepository.save(producto);
+        } catch (Exception e) {
+            log.error("Error al crear producto", e);
             return null;
         }
-        log.info("Pokemon encontrado: " + pokemon.getNombre());
-        return productoRepository.save(producto);
     }
 
     // Listar todos
@@ -53,81 +57,87 @@ public class ProductoService {
 
     // Buscar por pokemon
     public List<Producto> listarPorPokemon(Integer idPokemon) {
-
-        PkmProductoDTO pokemon = pkmClient.obtenerPokemon(idPokemon);
-        if (pokemon == null) {
-            return null;
+        try {
+            PkmProductoDTO pokemon = pkmClient.obtenerPokemon(idPokemon);
+            if (pokemon == null) {
+                return List.of();
+            }
+            log.info("Pokemon encontrado: " + pokemon.getNombre());
+            return productoRepository.findByIdPokemon(idPokemon);
+        } catch (Exception e) {
+            log.error("Error al listar productos por pokemon", e);
+            return List.of();
         }
-        return productoRepository.findByIdPokemon(idPokemon);
     }
 
     // Buscar por clasificacion
-    public List<Producto> listarPorClasificacion(
-            Integer idClasificacion
-    ) {
+    public List<Producto> listarPorClasificacion(Integer idClasificacion) {
 
-        return productoRepository
-                .findByClasificacionProducto_IdClasificacion(
-                        idClasificacion
-                );
+        return productoRepository.findByClasificacionProducto_IdClasificacion(idClasificacion);
     }
 
     // Actualizar producto
-    public Producto actualizarProducto(
-            Integer id,
-            Producto nuevoProducto
-    ) {
+    public Producto actualizarProducto(Integer id, Producto nuevoProducto) {
 
-        Producto producto =
-                productoRepository.findById(id).orElse(null);
+        try {
 
-        if (producto == null) {
+            Producto producto = productoRepository.findById(id).orElse(null);
+            if (producto == null) {
+                return null;
+            }
+            PkmProductoDTO pokemon = pkmClient.obtenerPokemon(nuevoProducto.getIdPokemon());
+            if (pokemon == null) {
+                return null;
+            }
+
+            log.info("Pokemon encontrado: " + pokemon.getNombre());
+
+            producto.setNombreProducto(
+                    nuevoProducto.getNombreProducto()
+            );
+
+            producto.setDescripcion(
+                    nuevoProducto.getDescripcion()
+            );
+
+            producto.setPrecio(
+                    nuevoProducto.getPrecio()
+            );
+
+            producto.setStock(
+                    nuevoProducto.getStock()
+            );
+
+            producto.setIdPokemon(
+                    nuevoProducto.getIdPokemon()
+            );
+
+            producto.setClasificacionProducto(
+                    nuevoProducto.getClasificacionProducto()
+            );
+
+            return productoRepository.save(producto);
+
+        } catch (Exception e) {
+
+            log.error("Error al actualizar producto", e);
+
             return null;
         }
-
-        producto.setNombreProducto(
-                nuevoProducto.getNombreProducto()
-        );
-
-        producto.setDescripcion(
-                nuevoProducto.getDescripcion()
-        );
-
-        producto.setPrecio(
-                nuevoProducto.getPrecio()
-        );
-
-        producto.setStock(
-                nuevoProducto.getStock()
-        );
-
-        PkmProductoDTO pokemon = pkmClient.obtenerPokemon(nuevoProducto.getIdPokemon());
-        if (pokemon == null) {
-            return null;
-        }
-        producto.setIdPokemon(
-                nuevoProducto.getIdPokemon()
-        );
-
-        producto.setClasificacionProducto(
-                nuevoProducto.getClasificacionProducto()
-        );
-
-        return productoRepository.save(producto);
     }
 
-    // Eliminar producto
     public boolean eliminarProducto(Integer id) {
-
-        Producto producto =
-                productoRepository.findById(id).orElse(null);
-
-        if (producto == null) {
+        try {
+            Producto producto = productoRepository.findById(id).orElse(null);
+            if (producto == null) {
+                return false;
+            }
+            productoRepository.delete(producto);
+            log.info("Producto eliminado correctamente");
+            return true;
+        } catch (Exception e) {
+            log.error("Error al eliminar producto", e);
             return false;
         }
-
-        productoRepository.delete(producto);
-
-        return true;
     }
 }
