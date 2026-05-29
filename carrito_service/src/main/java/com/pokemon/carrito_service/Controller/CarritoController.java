@@ -31,7 +31,7 @@ public class CarritoController {
 
     // Carritos por usuario
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<List<Carrito>> listarPorUsuario(@PathVariable Integer id) {
+    public ResponseEntity<List<Carrito>> listarPorUsuario(@PathVariable Long id) {
 
         List<Carrito> carritos = carritoService.listarPorUsuario(id);
 

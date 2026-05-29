@@ -1,6 +1,6 @@
 CREATE TABLE carrito (
     id_carrito INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL, -- sin FK
+    id_usuario BIGINT NOT NULL, -- sin FK
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

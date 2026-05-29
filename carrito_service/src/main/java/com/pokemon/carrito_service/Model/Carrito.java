@@ -18,7 +18,7 @@ public class Carrito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCarrito;
 
-    private Integer idUsuario;
+    private Long idUsuario;
 
     private LocalDateTime fechaCreacion;
 }
