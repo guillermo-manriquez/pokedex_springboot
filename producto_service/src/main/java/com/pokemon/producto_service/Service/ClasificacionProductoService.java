@@ -46,16 +46,13 @@ public class ClasificacionProductoService {
             ClasificacionProducto nuevaClasificacion
     ) {
 
-        ClasificacionProducto clasificacion =
-                clasificacionRepository.findById(id).orElse(null);
+        ClasificacionProducto clasificacion = clasificacionRepository.findById(id).orElse(null);
 
         if (clasificacion == null) {
             return null;
         }
 
-        clasificacion.setNombreCategoria(
-                nuevaClasificacion.getNombreCategoria()
-        );
+        clasificacion.setNombreCategoria(nuevaClasificacion.getNombreCategoria());
 
         return clasificacionRepository.save(clasificacion);
     }
@@ -63,8 +60,7 @@ public class ClasificacionProductoService {
     // Eliminar
     public boolean eliminarClasificacion(Integer id) {
 
-        ClasificacionProducto clasificacion =
-                clasificacionRepository.findById(id).orElse(null);
+        ClasificacionProducto clasificacion = clasificacionRepository.findById(id).orElse(null);
 
         if (clasificacion == null) {
             return false;

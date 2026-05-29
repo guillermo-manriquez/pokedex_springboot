@@ -4,25 +4,38 @@ import com.pokemon.producto_service.Model.Producto;
 
 import com.pokemon.producto_service.Repository.ProductoRepository;
 
+import com.pokemon.producto_service.client.PkmClient;
+import com.pokemon.producto_service.dto.PkmProductoDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ProductoService {
 
+    private final PkmClient pkmClient;
     private final ProductoRepository productoRepository;
 
     public ProductoService(
-            ProductoRepository productoRepository
+            ProductoRepository productoRepository,
+            PkmClient pkmClient
     ) {
 
+        this.pkmClient = pkmClient;
         this.productoRepository = productoRepository;
     }
 
     // Crear producto
     public Producto crearProducto(Producto producto) {
 
+        PkmProductoDTO pokemon = pkmClient.obtenerPokemon(producto.getIdPokemon());
+
+        if (pokemon == null) {
+            return null;
+        }
+        log.info("Pokemon encontrado: " + pokemon.getNombre());
         return productoRepository.save(producto);
     }
 
@@ -41,6 +54,10 @@ public class ProductoService {
     // Buscar por pokemon
     public List<Producto> listarPorPokemon(Integer idPokemon) {
 
+        PkmProductoDTO pokemon = pkmClient.obtenerPokemon(idPokemon);
+        if (pokemon == null) {
+            return null;
+        }
         return productoRepository.findByIdPokemon(idPokemon);
     }
 
@@ -84,6 +101,10 @@ public class ProductoService {
                 nuevoProducto.getStock()
         );
 
+        PkmProductoDTO pokemon = pkmClient.obtenerPokemon(nuevoProducto.getIdPokemon());
+        if (pokemon == null) {
+            return null;
+        }
         producto.setIdPokemon(
                 nuevoProducto.getIdPokemon()
         );
