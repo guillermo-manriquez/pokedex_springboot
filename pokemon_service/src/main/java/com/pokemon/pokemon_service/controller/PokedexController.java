@@ -9,10 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pokedex")
+@Tag(name="API Pokedex",description = "API para la gestion de la pokedex")
 public class PokedexController {
 
     private final PokedexService pokedexService;
@@ -21,14 +27,9 @@ public class PokedexController {
         this.pokedexService = pokedexService;
     }
 
-    //@PostMapping("/init")
-    //public ResponseEntity<String> init() {
-    //
-    //    pokedexService.inicializarPokedex();
-    //
-    //    return ResponseEntity.ok("Pokedex inicializada");
-    //}
-
+    @Operation(summary ="Obtener todas las pokedex",description = "Endpoint permite consultar todos los registros de pokedex")
+    @ApiResponse(responseCode="200",description = "Consulta exitosa , se entrega la lista de pokedex")
+    @ApiResponse(responseCode="204",description = "Consulta exitosa , pero no se encontraron datos")
     @GetMapping
     public ResponseEntity<List<Pokedex>> obtenerTodas() {
 
@@ -43,8 +44,11 @@ public class PokedexController {
         }
     }
 
+    @Operation(summary ="Obtener pokedex por id",description = "Endpoint permite consultar un pokedex mediante su identificador")
+    @ApiResponse(responseCode="200",description = "Consulta exitosa , se entrega la informacion de la pokedex")
+    @ApiResponse(responseCode="404",description = "Pokedex no encontrada")
     @GetMapping("/id/{id}")
-    public ResponseEntity<Pokedex> obtenerPorId(@PathVariable Integer id) {
+    public ResponseEntity<Pokedex> obtenerPorId(@Parameter(description = "ID de pokedex") @PathVariable Integer id) {
         Pokedex pokedex = pokedexService.obtenerPorId(id);
 
         if (pokedex == null) {

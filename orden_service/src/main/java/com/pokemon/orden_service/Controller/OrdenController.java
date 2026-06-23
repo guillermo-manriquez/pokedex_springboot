@@ -8,10 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ordenes")
+@Tag(name="API Orden",description = "API para la gestion de ordenes")
 public class OrdenController {
 
     private final OrdenService ordenService;
@@ -21,6 +27,9 @@ public class OrdenController {
     }
 
     // Crear orden
+    @Operation(summary ="Crear orden",description = "Endpoint permite crear una nueva orden")
+    @ApiResponse(responseCode="201",description = "Orden creada correctamente")
+    @ApiResponse(responseCode="400",description = "Datos de la orden invalidos")
     @PostMapping
     public ResponseEntity<Orden> crearOrden(@Valid @RequestBody Orden orden) {
 
@@ -30,8 +39,11 @@ public class OrdenController {
     }
 
     // Listar por usuario
+    @Operation(summary ="Obtener ordenes por usuario",description = "Endpoint permite consultar todas las ordenes de un usuario")
+    @ApiResponse(responseCode="200",description = "Consulta exitosa , se entrega la lista de ordenes")
+    @ApiResponse(responseCode="204",description = "Consulta exitosa , pero no se encontraron datos")
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<List<Orden>> listarPorUsuario(@PathVariable Integer id) {
+    public ResponseEntity<List<Orden>> listarPorUsuario(@Parameter(description = "ID del usuario") @PathVariable Integer id) {
 
         List<Orden> ordenes = ordenService.listarPorUsuario(id);
 
@@ -43,8 +55,11 @@ public class OrdenController {
     }
 
     // Obtener por id
+    @Operation(summary ="Obtener orden por id",description = "Endpoint permite consultar una orden mediante su identificador")
+    @ApiResponse(responseCode="200",description = "Consulta exitosa , se entrega la informacion de la orden")
+    @ApiResponse(responseCode="404",description = "Orden no encontrada")
     @GetMapping("/{id}")
-    public ResponseEntity<Orden> obtenerPorId(@PathVariable Integer id) {
+    public ResponseEntity<Orden> obtenerPorId(@Parameter(description = "ID de la orden") @PathVariable Integer id) {
 
         Orden orden = ordenService.obtenerPorId(id);
 
@@ -56,8 +71,12 @@ public class OrdenController {
     }
 
     // Actualizar estado
+    @Operation(summary ="Actualizar estado de orden",description = "Endpoint permite actualizar el estado de una orden")
+    @ApiResponse(responseCode="200",description = "Estado actualizado correctamente")
+    @ApiResponse(responseCode="404",description = "Orden no encontrada")
     @PutMapping("/{id}/estado")
     public ResponseEntity<Orden> actualizarEstado(
+            @Parameter(description = "ID de la orden")
             @PathVariable Integer id,
             @RequestParam String estado
     ) {
@@ -72,8 +91,11 @@ public class OrdenController {
     }
 
     // Eliminar orden
+    @Operation(summary ="Eliminar orden",description = "Endpoint permite eliminar una orden mediante su identificador")
+    @ApiResponse(responseCode="200",description = "Orden eliminada correctamente")
+    @ApiResponse(responseCode="404",description = "Orden no encontrada")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarOrden(@PathVariable Integer id) {
+    public ResponseEntity<String> eliminarOrden(@Parameter(description = "ID de la orden") @PathVariable Integer id) {
 
         boolean eliminado = ordenService.eliminarOrden(id);
 

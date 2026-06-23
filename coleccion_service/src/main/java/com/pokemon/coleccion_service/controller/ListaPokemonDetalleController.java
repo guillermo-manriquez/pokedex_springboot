@@ -6,10 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/listas")
+@Tag(name="API Lista Pokemon Detalle",description = "API para la gestion de pokemon dentro de listas")
 public class ListaPokemonDetalleController {
 
     private final ListaPokemonDetalleService
@@ -25,8 +31,13 @@ public class ListaPokemonDetalleController {
     }
 
     // Agregar pokemon
+    @Operation(summary ="Agregar pokemon a lista",description = "Endpoint permite agregar un pokemon a una lista")
+    @ApiResponse(responseCode="201",description = "Pokemon agregado correctamente a la lista")
+    @ApiResponse(responseCode="404",description = "Lista o pokemon no encontrado")
     @PostMapping("/{idLista}/pokemon/{idPokemon}")
-    public ResponseEntity<ListaPokemonDetalle> agregarPokemon(@PathVariable Integer idLista, @PathVariable Integer idPokemon ) {
+    public ResponseEntity<ListaPokemonDetalle> agregarPokemon(
+            @Parameter(description = "ID de la lista") @PathVariable Integer idLista,
+            @Parameter(description = "ID del pokemon") @PathVariable Integer idPokemon ) {
 
         ListaPokemonDetalle detalle = new ListaPokemonDetalle();
 
@@ -39,10 +50,14 @@ public class ListaPokemonDetalleController {
         return new ResponseEntity<>(agregado, HttpStatus.CREATED);
     }
 
-
     // Eliminar pokemon
+    @Operation(summary ="Eliminar pokemon de lista",description = "Endpoint permite eliminar un pokemon de una lista")
+    @ApiResponse(responseCode="200",description = "Pokemon eliminado correctamente")
+    @ApiResponse(responseCode="404",description = "Pokemon no encontrado en la lista")
     @DeleteMapping("/{id}/pokemon/{pokemonId}")
-    public ResponseEntity<String> eliminarPokemon(@PathVariable Integer id, @PathVariable Integer pokemonId) {
+    public ResponseEntity<String> eliminarPokemon(
+            @Parameter(description = "ID de la lista") @PathVariable Integer id,
+            @Parameter(description = "ID del pokemon") @PathVariable Integer pokemonId) {
 
         List<ListaPokemonDetalle> detalles = detalleService.verPokemonDeLista(id);
 
@@ -65,10 +80,12 @@ public class ListaPokemonDetalleController {
         return new ResponseEntity<>("Pokemon eliminado", HttpStatus.OK);
     }
 
-
     // Pokemon de lista
+    @Operation(summary ="Obtener pokemon de una lista",description = "Endpoint permite consultar todos los pokemon asociados a una lista")
+    @ApiResponse(responseCode="200",description = "Consulta exitosa , se entrega la lista de pokemon")
+    @ApiResponse(responseCode="204",description = "Consulta exitosa , pero no se encontraron datos")
     @GetMapping("/{idLista}/pokemon")
-    public ResponseEntity<List<ListaPokemonDetalle>> verPokemonDeLista(@PathVariable Integer idLista) {
+    public ResponseEntity<List<ListaPokemonDetalle>> verPokemonDeLista(@Parameter(description = "ID de la lista") @PathVariable Integer idLista) {
 
         List<ListaPokemonDetalle> pokemon = detalleService.verPokemonDeLista(idLista);
 
