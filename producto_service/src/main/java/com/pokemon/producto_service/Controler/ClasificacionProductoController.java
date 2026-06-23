@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/clasificaciones")
+@RequestMapping("/api/v1/productos/clasificaciones")
 @Tag(name="API Clasificacion Producto",description = "API para la gestion de clasificaciones de productos")
 public class ClasificacionProductoController {
 

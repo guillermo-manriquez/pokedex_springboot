@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/pokedex")
+@RequestMapping("/api/v1/pokemon/pokedex")
 @Tag(name="API Pokedex",description = "API para la gestion de la pokedex")
 public class PokedexController {
 
