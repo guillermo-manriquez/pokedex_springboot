@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/pokedex")
+@RequestMapping("/api/v1/pokemon/pokedex")
 public class PokedexController {
 
     private final PokedexService pokedexService;

@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/pokedex_auth?createDatabaseIfNotExist=true
     username: root
-    password:
+    password: javajava #contra es javajava
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

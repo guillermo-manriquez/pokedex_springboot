@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/clasificaciones")
+@RequestMapping("/api/v1/productos/clasificaciones")
 public class ClasificacionProductoController {
 
     private final ClasificacionProductoService clasificacionService;
