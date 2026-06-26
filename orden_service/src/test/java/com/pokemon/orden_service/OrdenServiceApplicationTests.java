@@ -80,14 +80,14 @@ class OrdenServiceApplicationTests {
 	}
 
 	@Test
-	@DisplayName("Verificar que la orden tiene items")
-	void checkCantidadItems() {
+	@DisplayName("Verificar estado de la orden")
+	void checkEstadoOrden() {
 
 		Orden orden = servicio.obtenerPorId(1);
 
-		log.info("Verificando cantidad de items de la orden {}", orden.getIdOrden());
+		log.info("Verificando estado de la orden");
 
-		assertTrue(orden.getItems().size() > 0);
+		assertEquals("PAGADO", orden.getEstadoOrden());
 	}
 
 }
