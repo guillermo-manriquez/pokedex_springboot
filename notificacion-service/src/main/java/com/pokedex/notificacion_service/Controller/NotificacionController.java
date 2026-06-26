@@ -34,7 +34,7 @@ public class NotificacionController {
     @ApiResponse(responseCode="200",description = "Consulta exitosa , se entrega la lista de notificaciones")
     @ApiResponse(responseCode="204",description = "Consulta exitosa , pero no se encontraron datos")
     @GetMapping("/me/{userId}")
-    public ResponseEntity<List<NotificacionResponse>> getMyNotifications(@Parameter(description = "ID del usuario") @PathVariable Integer userId) {
+    public ResponseEntity<List<NotificacionResponse>> getMyNotifications(@Parameter(description = "ID del usuario") @PathVariable Long userId) {
         System.out.println("CONTROLLER HIT - userId: " + userId);
         return ResponseEntity.ok(notificacionService.getMyNotifications(userId));
     }

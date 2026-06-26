@@ -24,7 +24,7 @@ public class NotificacionService {
         notificacionRepository.save(notificacion);
     }
 
-    public List<NotificacionResponse> getMyNotifications(Integer userId) {
+    public List<NotificacionResponse> getMyNotifications(Long userId) {
         return notificacionRepository.findByUserIdOrderByCreatedAtDesc(userId)
                 .stream()
                 .map(n -> new NotificacionResponse(
