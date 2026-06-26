@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificacionRequest {
-    private Integer userId;
+    private Long userId;
     private String message;
     private String type;
 }

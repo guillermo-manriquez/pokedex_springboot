@@ -15,7 +15,7 @@ public class PagoRequest {
     private Integer orderId;
 
     @NotNull
-    private Integer userId;
+    private Long userId;
 
     @NotNull
     @Positive

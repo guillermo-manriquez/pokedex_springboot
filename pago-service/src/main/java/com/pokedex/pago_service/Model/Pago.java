@@ -25,7 +25,7 @@ public class Pago {
     private Integer orderId;
 
     @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    private Long userId;
 
     @Column(name ="cantidad", nullable = false)
     private BigDecimal amount;
